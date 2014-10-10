@@ -12,6 +12,7 @@ public class PinPad extends JFrame implements ActionListener{
 	JPasswordField jpwPasscode = new JPasswordField(4);
 	JButton jbtNumber;
 	StringBuilder inputPin= new StringBuilder("");
+	Authentication auth = new Authentication();
 	public PinPad() {
 		
 		jplLabelPanel.setLayout(new BorderLayout());
@@ -25,14 +26,18 @@ public class PinPad extends JFrame implements ActionListener{
 			jbtNumber.addActionListener(this);
 			jplButtonPanel.add(jbtNumber);
 		}
-		jbtNumber = new JButton(" ");
+		
+		jbtNumber = new JButton("\u23CE");
+		jbtNumber.addActionListener(new EnterAction());
 		jplButtonPanel.add(jbtNumber);
+		
 		jbtNumber = new JButton(0+"");
 		jbtNumber.addActionListener(this);
 		jplButtonPanel.add(jbtNumber);
 		jbtNumber = new JButton("C");
 		jbtNumber.addActionListener(this);
 		jplButtonPanel.add(jbtNumber);
+		
 		
 		jplControlPanel.setLayout(new BorderLayout());
 		jplControlPanel.add(jplLabelPanel, BorderLayout.CENTER);
@@ -44,10 +49,11 @@ public class PinPad extends JFrame implements ActionListener{
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		int ySize = ((int) tk.getScreenSize().getHeight());*/
-		setPreferredSize(new Dimension(150, 180));
+		setPreferredSize(new Dimension(160, 180));
 		setVisible(true);
 		pack();
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -96,5 +102,16 @@ public class PinPad extends JFrame implements ActionListener{
 			jpwPasscode.setText(inputPin.toString());
 			System.out.println(inputPin);
 		}
+	}
+	
+	public class EnterAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			String message =(auth.authenticate(inputPin.toString()))?"Welcome":"WrongPin";
+			JOptionPane.showMessageDialog(null, message);
+		}
+		
 	}
 }
